@@ -2,12 +2,13 @@
 
 namespace Tests\Feature\routes;
 
+use App\Enums\ResponseEnum;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class CountryRouteTest extends TestCase
 {
-    protected $fields = "alpha3Code;name&codes=";
+    protected $borders = "col;no;ee";
 
     public function setUp(): void
     {
@@ -61,5 +62,31 @@ class CountryRouteTest extends TestCase
         $response = $this->getJson('api/v1/countries/BRA', $this->authHeader);
 
         $response->assertStatus(200);
+    }
+
+    /** @test */
+    public function showCountryError()
+    {
+        $response = $this->getJson('api/v1/countries/B12', $this->authHeader);
+
+        $response->assertStatus(500);
+    }
+
+    /** @test */
+    public function listBordersOfCountrySuccess()
+    {
+        $uri = 'api/v1/get-borders?borders=' . $this->borders;
+        $response = $this->getJson($uri, $this->authHeader);
+
+        $response->assertStatus(200);
+    }
+
+    /** @test */
+    public function listBordersOfCountryError()
+    {
+        $uri = 'api/v1/get-borders';
+        $response = $this->getJson($uri, $this->authHeader);
+
+        $response->assertStatus(500);
     }
 }

@@ -22,7 +22,7 @@ class CountryController extends Controller
 
             return response()->json(['ret' => $countries['ret'], 'msg' => $countries['msg'], 'data' => $countries['data']], $countries['codeResponse']);
         } catch (Exception $e) {
-            return response()->json(['ret' => ResponseEnum::failedResponse, 'msg' => "Erro ao buscar países!", 'erro' => $e->getMessage()]);
+            return response()->json(['ret' => ResponseEnum::failedResponse, 'msg' => "Erro ao buscar países!", 'erro' => $e->getMessage()], 500);
         }
     }
 
@@ -35,7 +35,7 @@ class CountryController extends Controller
 
             return response()->json(['ret' => ResponseEnum::successResponse, 'msg' => 'País encontrado com sucesso!', 'data' => $country], 200);
         } catch (Exception $e) {
-            return response()->json(['ret' => ResponseEnum::failedResponse, 'msg' => "Erro ao buscar país!", 'erro' => $e->getMessage()]);
+            return response()->json(['ret' => ResponseEnum::failedResponse, 'msg' => "Erro ao buscar país!", 'erro' => $e->getMessage()], 500);
         }
     }
 
@@ -51,11 +51,12 @@ class CountryController extends Controller
 
                 $countryIns = new Country($options);
                 $items = $countryIns->showCountry();
+                return response()->json(['ret' => ResponseEnum::successResponse, 'msg' => 'Países da fronteira encontrados com sucesso!', 'data' => $items], 200);
+            } else {
+                return response()->json(['ret' => ResponseEnum::failedResponse, 'msg' => 'É necessário enviar as fronteiras do país!', 'data' => []], 500);
             }
-
-            return response()->json(['ret' => ResponseEnum::successResponse, 'msg' => 'Países da fronteira encontrados com sucesso!', 'data' => $items], 200);
         } catch (Exception $e) {
-            return response()->json(['ret' => ResponseEnum::failedResponse, 'msg' => "Erro ao buscar países da fronteira!", 'erro' => $e->getMessage()]);
+            return response()->json(['ret' => ResponseEnum::failedResponse, 'msg' => "Erro ao buscar países da fronteira!", 'erro' => $e->getMessage()], 500);
         }
     }
 
@@ -73,7 +74,7 @@ class CountryController extends Controller
 
             return response()->json(['ret' => ResponseEnum::successResponse, 'msg' => 'Países do continente encontrados com sucesso!', 'data' => $items], 200);
         } catch (Exception $e) {
-            return response()->json(['ret' => ResponseEnum::failedResponse, 'msg' => "Erro ao buscar países do continente!", 'erro' => $e->getMessage()]);
+            return response()->json(['ret' => ResponseEnum::failedResponse, 'msg' => "Erro ao buscar países do continente!", 'erro' => $e->getMessage()], 500);
         }
     }
 }
