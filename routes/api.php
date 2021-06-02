@@ -19,5 +19,4 @@ Route::prefix('v1')->group(function () {
 
     Route::get('get-borders', 'v1\CountryController@getBordersByCountry');
     Route::get('country-region', 'v1\CountryController@getCountriesByRegion');
-    Route::get('country-routes', 'v1\CountryController@getRoutes');
 });
